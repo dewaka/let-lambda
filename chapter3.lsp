@@ -36,3 +36,44 @@
 ;; We can define the sleep-units macro using the more general unit-of-time macro
 (defmacro sleep-units2 (value unit)
   `(sleep (unit-of-time ,value ,unit)))
+
+;; Named lets as in Scheme
+(defmacro nlet (n letargs &rest body)
+  `(labels ((,n ,(mapcar #'car letargs)
+            ,@body))
+     (,n ,@(mapcar #'cadr letargs))))
+
+;; Using nlet
+(defun nlet-factorial (n)
+  (nlet fact ((n n))
+        (if (zerop n)
+            1
+            (* n (fact (1- n))))))
+
+;; nlet can be better understood by macroexpanding an expression containing an
+;; expression containing a use of nlet
+;;
+;;> (macroexpand `(nlet fact ((n n)) (if (zerop n) 1 (* n (fact (1- n))))))
+;;
+;; (LABELS ((FACT (N)
+;;            (IF (ZEROP N)
+;;                1
+;;                (* N (FACT (1- N))))))
+;;   (FACT N))
+
+(defun fact (n)
+  (if (zerop n)
+      1
+      (* n (fact (1- n)))))
+
+;; Using local functional definitions
+(defun welcome ()
+  (labels
+      ;; local function to read a name
+      ((read-name ()
+         (progn (format t "Please enter your name: ")
+                (read-line)))
+      ;; local function to print a greeting message
+       (greet (name)
+         (format t "Hello there ~a" name)))
+    (greet (read-name))))
