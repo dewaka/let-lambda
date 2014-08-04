@@ -77,3 +77,18 @@
        (greet (name)
          (format t "Hello there ~a" name)))
     (greet (read-name))))
+
+;; NIF buggy version
+;; This macro is buggy because even though the name obscure-name sounds obscure
+;; is not a gensym - thus it could be shadowing a legitimate variable referred
+;; one of the four provided expressions
+;; Thus, this is indeed a buggy macro
+(defmacro nif-buggy (expr pos zero neg)
+  `(let ((obscure-name ,expr))
+     (cond ((plusp obscure-name) ,pos)
+           ((zerop obscure-name) ,zero)
+           (t ,neg))))
+
+;; The right way to do that is to of course use a gensym to store the expr value
+;; To simulate or rather emulate functional call with macros we have to make
+;; sure that we only evaluate expr value once and only once
