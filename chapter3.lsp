@@ -92,3 +92,12 @@
 ;; The right way to do that is to of course use a gensym to store the expr value
 ;; To simulate or rather emulate functional call with macros we have to make
 ;; sure that we only evaluate expr value once and only once
+
+
+;; Safe nif macro
+(defmacro nif (expr pos zero neg)
+  (let ((g (gensym)))
+    `(let ((,g ,expr))
+       (cond ((plusp ,g) ,pos)
+             ((zerop ,g) ,zero)
+             (t ,neg)))))
