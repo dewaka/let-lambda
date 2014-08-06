@@ -101,3 +101,10 @@
        (cond ((plusp ,g) ,pos)
              ((zerop ,g) ,zero)
              (t ,neg)))))
+
+;; Naif examples
+(defun show-message-on-num (num)
+  (nif num
+       (print "Number is positive")
+       (print "It's Zero")
+       (print "Number is negative")))
