@@ -108,3 +108,9 @@
        (print "Number is positive")
        (print "It's Zero")
        (print "Number is negative")))
+
+(defun fizz-buzz-p (n)
+  (cond ((and (eq 0 (mod n 3)) (eq 0 (mod n 5))) (print "Fizz-Buzz")
+         (eq 0 (mod n 3)) (print "Fizz")
+         (eq 0 (mod n 5)) (print "Buzz")
+         t (print n))))
