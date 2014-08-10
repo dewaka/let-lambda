@@ -109,8 +109,14 @@
        (print "It's Zero")
        (print "Number is negative")))
 
+(defun div-p (n m)
+  (eq (mod n m) 0))
+
 (defun fizz-buzz-p (n)
-  (cond ((and (eq 0 (mod n 3)) (eq 0 (mod n 5))) (print "Fizz-Buzz")
-         (eq 0 (mod n 3)) (print "Fizz")
-         (eq 0 (mod n 5)) (print "Buzz")
-         t (print n))))
+  (cond ((and (div-p n 3) (div-p n 5)) (print "Fizz-Buzz"))
+        ((div-p n 3) (print "Fizz"))
+        ((div-p n 5) (print "Buzz"))
+        (t (print n))))
+
+(defun fizz-buzz (n)
+  (dotimes (i n) (fizz-buzz-p i)))
