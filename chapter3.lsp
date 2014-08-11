@@ -120,3 +120,12 @@
 
 (defun fizz-buzz (n)
   (dotimes (i n) (fizz-buzz-p i)))
+
+;; G-BANG-SYMBOL-PREDICATE
+(defun g!-symbol-p (s)
+  (and (symbolp s)
+       (> (length (symbol-name s)) 2)
+       (string= (symbol-name s)
+                "G!"
+                :start1 0
+                :end1 2)))
